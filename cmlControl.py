@@ -1,12 +1,14 @@
 import sys
+import os
 import optparse
 import csv
 import event
 import validurl
 import parsecsv
+import httpTemplate
+from config import *
 # the version of webui
-webuiVersion = 0
-componentList = ['video', 'IRC', 'etherpad']
+
 
 webuiUsage = """
     Usage: ./webuicml [-oim] [file]
@@ -49,10 +51,7 @@ def manualMode(opt):
     return [newEvent]
 
 def csvMode(opt):
-    return parsecsv.parseCSV(opt.input, opt.verifyUrl)
-
-
-
+    return parsecsv.parseCsv(opt.input, opt.verifyUrl)
 
 
 # parse the option input by users
@@ -78,15 +77,22 @@ def parseargs():
 
 def main():
     opt, args, parser = parseargs()
+    eventList = []
+    if not os.path.exists(opt.output):
+        os.makedirs(opt.output)
+        print "Creating the output directory : " + opt.output
+    else:
+        print "existing directory"
     if opt.input:
-        comList = csvMode(opt)
+        eventList = csvMode(opt)
         print "has input"
     else:
         eventList = manualMode(opt)
         print "doesn't have input"
 
-    print eventList[0].comUrl
-    return
+    for e in eventList:
+        filename = opt.output + '/' + e.name + '.html'
+        httpTemplate.createHTMLFile(e, filename)
 
 if __name__ == '__main__':
     sys.exit(main())

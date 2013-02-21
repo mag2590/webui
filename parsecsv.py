@@ -2,7 +2,7 @@ import csv
 import sys
 import event
 import validurl
-from cmlControl import componentList
+from config import *
 
 def parseCsv(filename, checkUrl):
     data = csv.reader(open(filename))

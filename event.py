@@ -1,3 +1,4 @@
+import datetime
 class Event:
     comUrl = {}
     filename = ""
@@ -9,4 +10,15 @@ class Event:
 
     def addUrl(self, com, url):
         self.comUrl[com] = url
+    
+    def getHtmlFormat(self):
+        data = []
+        for com in self.comUrl.keys():
+            d = {}
+            d['title'] = com
+            d['url'] = self.comUrl[com]
+            d['date'] = str(datetime.date.today())
+            d['content']= ''
+            data.append(d)
+        return data
 

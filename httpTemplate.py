@@ -55,13 +55,23 @@ list_of_posts = [
 
 # Pass in a full list of posts and a variable containing the last
 # post in the list, assumed to be the most recent. 
-s=page_template.render(posts = list_of_posts,
-                           current = list_of_posts[0])
-with open("httpTemplate.html","w") as html_file:
-    html_file.write(s)
-    
-f2=open("httpTemplate.html","r+")
-m=f2.read()
-print m
+# s=page_template.render(posts = list_of_posts,
+#                            current = list_of_posts[0])
+# with open("httpTemplate.html","w") as html_file:
+#     html_file.write(s)
+#     
+# f2=open("httpTemplate.html","r+")
+# m=f2.read()
+# print m
+
+def createHTMLFile(event, fileLocation):
+    eventPost = event.getHtmlFormat()
+    s=page_template.render(posts = eventPost,
+                           current = eventPost[0])
+    with open(fileLocation,"w") as html_file:
+        html_file.write(s)
+    # f2=open("httpTemplate.html","r+")
+    # m=f2.read()
+    # print m
 
     
