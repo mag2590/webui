@@ -6,7 +6,15 @@ import validurl
 import parsecsv
 # the version of webui
 webuiVersion = 0
+componentList = ['video', 'IRC', 'etherpad']
 
+webuiUsage = """
+    Usage: ./webuicml [-oim] [file]
+    -o [folder] : output folder for html files
+    -i [file]   : input csv file for multiple html page
+    -u          : verify input url
+   """
+   
 welcomeMessage = """
     Welcome to webui generator.
     Please choose component you want for your webui for live events.
@@ -29,9 +37,8 @@ def readUrl(componentName):
 
 def manualMode(opt):
     print welcomeMessage
-    name = raw_input("name of this event:")
-    newEvent = event.Event()
-    newEvent.name = name
+    eventName = raw_input("name of this event:")
+    newEvent = event.Event(eventName)
     for com in componentList:
         if chooseComponent(com):
             url = readUrl(com)
@@ -42,16 +49,11 @@ def manualMode(opt):
     return [newEvent]
 
 def csvMode(opt):
-    return parsecsv.csvParser(opt.input, opt.verifyUrl)
+    return parsecsv.parseCSV(opt.input, opt.verifyUrl)
 
 
-componentList = ['video', 'IRC', 'etherpad']
-webuiUsage = """
-    Usage: ./webuicml [-oim] [file]
-    -o [folder] : output folder for html files
-    -i [file]   : input csv file for multiple html page
-    -u          : verify input url
-   """
+
+
 
 # parse the option input by users
 def parseargs():

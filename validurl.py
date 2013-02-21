@@ -14,7 +14,7 @@ def isValidUrl(url):
 
 def isExistingUrl(url):
     goodCodes = [httplib.OK, httplib.FOUND, httplib.MOVED_PERMANENTLY]
-    p = urlparse.urlparse(url)[1:3]
+    p = urlparse.urlparse(url)
     try:
         conn = httplib.HTTPConnection(p.netloc)
         conn.request('HEAD', p.path)
@@ -24,4 +24,10 @@ def isExistingUrl(url):
 
 
 def verifyUrl(url):
+    if not isValidUrl(url):
+        print "url pattern not valid"
+        return False
+    if not isExistingUrl(url):
+        print "url doesn't exist"
+        return False
     return isValidUrl(url) and isExistingUrl(url)
