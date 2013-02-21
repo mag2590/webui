@@ -4,6 +4,7 @@ import event
 import validurl
 from config import *
 
+# create a list of events based on the input csv file
 def parseCsv(filename, checkUrl):
     data = csv.reader(open(filename))
     # Read the column names from the first line of the file
@@ -12,11 +13,13 @@ def parseCsv(filename, checkUrl):
     # print fields
     eventName = EventName(fields)
     eventList = []
-    
+    # for each of the event given
+    # create a event object for it with the data
     for row in data:
         # Zip together the field names and values
         items = zip(fields, row)
-        comUrl = {}        
+        comUrl = {}
+        # create a dictionary of component name to its url for this event 
         for (name, value) in items:
             if not name.strip()== 'name':
                 # Validate the url given
@@ -30,6 +33,7 @@ def parseCsv(filename, checkUrl):
     return eventList
 
 
+# verify if all the fields given in in the component list
 def varifyFields(fields):
     for f in fields:
         if f not in componentList and f != "name":
@@ -37,7 +41,7 @@ def varifyFields(fields):
             exit(1)
     
     
-
+# class to handle the name of the event
 # if the event name is given, return the event name
 # otherwise automatically generate eventmane starting from 0
 class EventName:

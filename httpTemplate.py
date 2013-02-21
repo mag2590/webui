@@ -64,6 +64,9 @@ list_of_posts = [
 # m=f2.read()
 # print m
 
+
+# pass the event with url data and location to store the resulting html file
+# apply html template and store it to file 
 def createHTMLFile(event, fileLocation):
     eventPost = event.getHtmlFormat()
     s=page_template.render(posts = eventPost,

@@ -2,6 +2,7 @@ import re
 import httplib
 import urlparse
 
+# check if the given url has the right html format
 def isValidUrl(url):
     regex = re.compile(
         r'^https?://'  # http:// or https://
@@ -12,6 +13,7 @@ def isValidUrl(url):
         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
     return url is not None and regex.search(url)
 
+# check if the given url can be reached through http request
 def isExistingUrl(url):
     goodCodes = [httplib.OK, httplib.FOUND, httplib.MOVED_PERMANENTLY]
     p = urlparse.urlparse(url)
@@ -22,6 +24,7 @@ def isExistingUrl(url):
     except StandardError:
         return False
 
+# verify url by both applying regular expression and http request
 
 def verifyUrl(url):
     if not isValidUrl(url):

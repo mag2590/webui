@@ -37,24 +37,28 @@ def readUrl(componentName):
     url = raw_input('Please input the URL for ' + componentName + '\n')
     return url
 
+# Handle user input through command line to get url information for a event
 def manualMode(opt):
     print welcomeMessage
     eventName = raw_input("name of this event:")
     newEvent = event.Event(eventName)
+    # collect information for each commponent for this event
     for com in componentList:
         if chooseComponent(com):
             url = readUrl(com)
+            # validate the given url if requested by user
             if opt.verifyUrl:
                 if not validurl.verifyUrl(url):
                     print "ERROR: " + url + "is not valid. Abort."
             newEvent.addUrl(com, url)
     return [newEvent]
 
+# handler user input through a csv file to get url information for multiple events
 def csvMode(opt):
     return parsecsv.parseCsv(opt.input, opt.verifyUrl)
 
 
-# parse the option input by users
+# parse the command line option input by users
 def parseargs():
     parser = optparse.OptionParser(version = webuiVersion,
             usage = webuiUsage)
@@ -76,20 +80,23 @@ def parseargs():
     return option, args, parser
 
 def main():
+    # parse the option in this argumetn 
     opt, args, parser = parseargs()
     eventList = []
+    # create the output folder if not already exists
     if not os.path.exists(opt.output):
         os.makedirs(opt.output)
         print "Creating the output directory : " + opt.output
     else:
         print "existing directory"
+        
+    # check whether use command line manual input or csv file
     if opt.input:
         eventList = csvMode(opt)
-        print "has input"
     else:
         eventList = manualMode(opt)
-        print "doesn't have input"
 
+    # for each of the event, create a html file and store it to the given location
     for e in eventList:
         filename = opt.output + '/' + e.name + '.html'
         httpTemplate.createHTMLFile(e, filename)
