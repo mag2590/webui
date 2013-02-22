@@ -1,11 +1,38 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# freeseer - vga/presentation capture software
+#
+#  Copyright (C) 2013  Free and Open Source Software Learning Centre
+#  http://fosslc.org
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# For support, questions, suggestions or any other inquiries, visit:
+# http://wiki.github.com/fosslc/freeseer/
 import csv
 import sys
 import event
 import validurl
 from config import *
 
-# create a list of events based on the input csv file
+
 def parseCsv(filename, checkUrl):
+    '''
+    create a list of events based on the input csv file
+    '''
+    
     data = csv.reader(open(filename))
     # Read the column names from the first line of the file
     fields = data.next()
@@ -18,40 +45,44 @@ def parseCsv(filename, checkUrl):
     for row in data:
         # Zip together the field names and values
         items = zip(fields, row)
-        comUrl = {}
+        componentUrl = {}
         # create a dictionary of component name to its url for this event 
         for (name, value) in items:
             if not name.strip()== 'name':
                 # Validate the url given
-                if checkUrl:
-                    if not validurl.verifyUrl(value.strip()):
+                if checkUrl and not validurl.verifyUrl(value.strip()):
                         print >> sys.stderr, value.strip() + " invalid url"
                         exit(1)
-                comUrl[name.strip()] = value.strip() 
-        e = event.Event(eventName.getEventName(items), comUrl)
+                componentUrl[name.strip()] = value.strip() 
+        e = event.Event(eventName(items), componentUrl)
         eventList.append(e)
     return eventList
 
 
-# verify if all the fields given in in the component list
+
 def varifyFields(fields):
-    for f in fields:
-        if f not in componentList and f != "name":
+    '''
+    verify if all the fields given in in the component list
+    '''
+    for field in fields:
+        if field not in componentList and field != "name":
             print >> sys.stderr, _("Unknow component: " + f + ".")
             exit(1)
     
     
-# class to handle the name of the event
-# if the event name is given, return the event name
-# otherwise automatically generate eventmane starting from 0
-class EventName:
-    default = 0
-    useDefault = True
+
+class EventName(object):
+    '''
+    class to handle the name of the event
+    if the event name is given, return the event name
+    otherwise automatically generate evenname starting from 0
+    '''
+
     def __init__(self, fields):
-        if "name" in fields:
-            self.useDefault = False
-            
-    def getEventName(self, zip):
+        self.default = 0
+        self.useDefault = 'name' not in fields
+    
+    def __call__(self, zip):
         if self.useDefault:
             self.default += 1;
             return str(self.default-1)

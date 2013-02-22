@@ -22,35 +22,6 @@
 # For support, questions, suggestions or any other inquiries, visit:
 # http://wiki.github.com/fosslc/freeseer/
 
-import datetime
-class Event(object):
-    '''
-    Event class used for each event to store the dictionary pair of component name and its url address. 
-    '''
-    componentUrl = {}
-    name  = ''
-    def __init__(self, name, componentUrl = None):
-        self.name = name
-        if componentUrl is not None:
-            self.componentUrl = componentUrl
-
-    def addUrl(self, component, url):
-        '''
-        add a component and url pair to dictionary
-        '''
-        self.componentUrl[component] = url
-    
-    def getHtmlFormat(self):
-        '''
-        return data in format to creat html
-        '''
-        data = []
-        for component in self.componentUrl.keys():
-            d = {}
-            d['title'] = component
-            d['url'] = self.componentUrl[component]
-            d['date'] = str(datetime.date.today())
-            d['content']= ''
-            data.append(d)
-        return data
-
+Name = "Freeseer WebUI Generator"
+webuiVersion = 0
+componentList = ['video', 'IRC', 'etherpad']
