@@ -66,7 +66,7 @@ def varifyFields(fields):
     '''
     for field in fields:
         if field not in componentList and field != "name":
-            print >> sys.stderr, _("Unknow component: " + f + ".")
+            print >> sys.stderr, _("Unknow component: " + field + ".")
             exit(1)
     
     

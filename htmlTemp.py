@@ -41,10 +41,26 @@ page_template = jinja2.Template('''
         </head>
         <body>
         <h1>Welcome to Freeseer online portal</h1>
+        {% for post in posts1 %}
+          <li><a href="{{ post.url }}">{{post.title}}-{{post.content}} 
+                                       </a></li>
+          
+          
+          <iframe src="{{post.url}}" width="500" height="200" style="float:left"></iframe>
+          
+        {% endfor %}
+        {% for post in posts2 %}
+          <li><a href="{{ post.url }}">{{post.title}}-{{post.content}} 
+                                       </a></li>
+          
+          
+          <iframe src="{{post.url}}" width="500" height="200" style="float:right"></iframe>
+          
+        {% endfor %}
         
-        {% for post in posts %}
-          <ul><a href="{{ post.url }}">{{post.title}}-{{post.content}} 
-                                       </a></ul>
+        {% for post in posts3 %}
+          <li><a href="{{ post.url }}">{{post.title}}-{{post.content}} 
+                                       </a></li>
           
           
           <iframe src="{{post.url}}" width="500" height="200" style="float:center"></iframe>
@@ -59,6 +75,18 @@ page_template = jinja2.Template('''
             <h2>{{ current.date }}</h2>
             <p>{{ current.content }}</p>
         </div>
+        <div id="postB">
+            <h1>{{ current.title }}</h1>
+            <h2>{{ current.date }}</h2>
+            <p>{{ current.content }}</p>
+        </div>
+        <div id="postC">
+            <h1>{{ current.title }}</h1>
+            <h2>{{ current.date }}</h2>
+            <p>{{ current.content }}</p>
+        </div>
+
+
     {% endblock %}
     
     </body>
@@ -69,52 +97,51 @@ page_template = jinja2.Template('''
 # list of dictionaries ready to pass in to your template
 now=datetime.date.today()
 
-list_of_posts = [
+post_1 = [
          { 'url' : 'http://www.icecast.org/',
           'title' : 'Icecast',
           'date' : now,
-          'content' : 'This is the icecast streaming channel'},
+          'content' : 'This is the icecast streaming channel'}
 
-         { 'url' : 'http://www.irc.org/',
+        ]
+
+post_2=[ { 'url' : 'http://www.irc.org/',
           'title' : 'IRC channel',
           'date' : now,
-          'content' : 'This is the IRC channel'},
-         
-         {'url': 'http://etherpad.org/',
+          'content' : 'This is the IRC channel'}
+        ]
+post_3=[{'url': 'http://etherpad.org/',
           'title':'Etherpad',
           'date':now,
-          'content':'Etherpad is an online editor'},
-         ]
-id1=list_of_posts[0];
-id2=list_of_posts[1];
-id3=list_of_posts[2];
+          'content':'Etherpad is an online editor'}
+        ]
 
 
 # Pass in a full list of posts and a variable containing the last
 # post in the list, assumed to be the most recent. 
-#s=page_template.render(posts = list_of_posts,
-#                            current = id2)
-#with open("httpTemplate.html","w") as html_file:
-#    html_file.write(s)
-#     
-#f2=open("httpTemplate.html","r+")
-#m=f2.read()
+s=page_template.render(posts1 = post_1, post2=post_2, post3=post_3, current=post_2[0]
+                            )
+with open("httpTemplate.html","w") as html_file:
+    html_file.write(s)
+     
+f2=open("httpTemplate.html","r+")
+m=f2.read()
 #print m
 
 
 # pass the event with url data and location to store the resulting html file
 # apply html template and store it to file 
-def createHTMLFile(event, fileLocation):
-    eventPost = event.getHtmlFormat()
-    s=page_template.render(posts = eventPost,
-                           current = eventPost[0])
-    with open(fileLocation,"w") as html_file:
-        html_file.write(s)
-        
-
-
-    f2=open("httpTemplate.html","r+")
-    m=f2.read()
-    print m
+#def createHTMLFile(event, fileLocation):
+#    eventPost = event.getHtmlFormat()
+#    s=page_template.render(posts = eventPost,
+#                           current = eventPost[0])
+#    with open(fileLocation,"w") as html_file:
+#        html_file.write(s)
+#        
+#
+#
+#    f2=open("httpTemplate.html","r+")
+#    m=f2.read()
+#    print m
 
     
