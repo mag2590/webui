@@ -7,7 +7,7 @@ Freeseer Video Page Template Editor
 
 Freeseer Video Page Template Editor allow users to easily create webpages with a video and optionally integrated ether pad and/or irc client. This helps people with easy chatting or collaborative editing while watching videos, whether it's a live stream or an archived film. 
 
-The template editor also supports customized branding. It's easy to specify color, logo, texts all around the page, as well as 
+The template editor also supports customized branding. It's easy to specify color, logo, texts all around the page, as well as full CSS control.
 
 ## Workflow
 
