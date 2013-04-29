@@ -7,8 +7,6 @@ var fields_list = [
   'footer_background-color',
   'header-title',
   'content-above-video',
-  'content-above-etherpad',
-  'content-above-irc',
   'content-below-irc',
   'youtube-iframe',
   'etherpad-iframe',
@@ -21,7 +19,11 @@ var checkbox_list = [
   'check-etherpad-iframe',
   'check-irc-iframe'
 ];
-
+var iframe_list = [
+  'youtube-iframe',
+  'etherpad-iframe',
+  'irc-iframe'
+];
 
 var update_field_helper = function(e) {
   // e: event
@@ -57,7 +59,7 @@ var update_field = function(editor_id, field_id) {
     field.attr('src', editor.val());
   } else if (field.is('div') || field.is('h1') || field.is('style')) {
     // update html content
-    field.html(editor.val());  
+    field.html(editor.val());
   } else {
     console.log('!!! nothing is updated !!!');
   }
@@ -72,6 +74,37 @@ var clean_up_dom = function() {
   window.location.href = encoded_str;
 }
 
+var update_width = function() {
+    var radio_buttons = $('#iframe-width').children();
+    for (var i = 0; i < radio_buttons.length; i++) {
+        if (radio_buttons[i].checked) {
+            var val = radio_buttons[i].value;
+            break;
+        }
+    }
+    if (val == 'full') {
+        // set iframe to full width
+        for (var i = 0; i < iframe_list.length; i++) {
+            $('#'+iframe_list[i]).removeClass('grid_8').addClass('grid_16');
+        }
+    } else {
+        // set first two visible iframe to half width
+        var count_half = 0;
+        for (var i = 0; i < iframe_list.length; i++) {
+            if ($('#'+iframe_list[i]).hasClass('hidden')) {
+                continue;
+            }
+            if (count_half < 2) {
+                // half width
+                $('#'+iframe_list[i]).removeClass('grid_16').addClass('grid_8');
+                count_half ++;
+            } else {
+                // full width
+                $('#'+iframe_list[i]).removeClass('grid_8').addClass('grid_16');
+            }
+        }
+    }
+}
 
 $(document).ready(function() {
   // go thru the fields
@@ -91,7 +124,7 @@ $(document).ready(function() {
   // go thru the checkboxes
   for (var i = 0; i < checkbox_list.length; i ++) {
     var checkbox_id = checkbox_list[i];
-    
+
     $('#'+checkbox_id).change(function(e) {
       var iframe_id = e.target.id.substr(6); // remove 'check-'
       if (e.target.checked) {
@@ -99,8 +132,12 @@ $(document).ready(function() {
       } else {
         $('#'+iframe_id).addClass('hidden');
       }
+      update_width();
     }).change();
   }
+
+  // size radio buttons
+  $('#iframe-width').children().click(update_width);
 
   // hide broken images
   $('img').error(function() {

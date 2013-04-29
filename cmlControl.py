@@ -139,6 +139,6 @@ def main():
     for e in eventList:
         filename = opt.output + '/' + e.name + '.html'
         httpTemplate.createHTMLFile(e, filename)
-
+        
 if __name__ == '__main__':
     sys.exit(main())

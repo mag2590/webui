@@ -67,21 +67,11 @@
     <!-- #youtube-iframe -->
     <div>
       <label for="youtube-iframe-input">Youtube URL<br/>
-        <input type="checkbox" id="check-youtube-iframe" checked="true"/><span class='helper-text'>Enabled</span>
+          <input type="checkbox" id="check-youtube-iframe" checked="true"/><span class='helper-text'>Enabled</span><br/>
       </label>
       <div class="input">
         <input type="text" id="youtube-iframe-input" value="http://www.youtube.com/embed/wOr1ZeQG__k?rel=0"/>
         <p class='helper-text'>Please use embedded youtube link. Use {{ video.youtube_link }} if using csv.</p>
-      </div>
-    </div>
-
-    <!-- #content-above-etherpad -->
-    <div><label for="content-above-etherpad-input">Content Above Etherpad</label>
-      <div class="input">
-        <textarea id="content-above-etherpad-input"><h1>Content above etherpad</h1>
-<p>Any text goes here.</p>
-</textarea>
-        <p class='helper-text'>Helper text goes here</p>
       </div>
     </div>
 
@@ -93,16 +83,6 @@
       <div class="input">
         <input type="text" id="etherpad-iframe-input" value="http://beta.etherpad.org/p/freeseer?fullScreen=1"/>
         <p class='helper-text'>Works best with etherpad-lite links</p>
-      </div>
-    </div>
-
-    <!-- #content-above-irc -->
-    <div><label for="content-above-irc-input">Content Above IRC</label>
-      <div class="input">
-        <textarea id="content-above-irc-input"><h1>Content above IRC</h1>
-<p>Any text goes here.</p>
-</textarea>
-        <p class='helper-text'>Helper text goes here</p>
       </div>
     </div>
 
@@ -123,6 +103,16 @@
         <textarea id="content-below-irc-input"></textarea>
         <p class='helper-text'>Helper text goes here</p>
       </div>
+    </div>
+
+    <div><label for='iframe-width'>Content Width</label>
+        <div class='input'>
+            <div id="iframe-width">
+                <input type="radio" name="iframe-width" value="full" checked="true">Full
+                <input type="radio" name="iframe-width" value="half">Half
+            </div>
+            <p class='helper-text'>Helper text goes here</p>
+        </div>
     </div>
 
     <!-- CSS -->
@@ -205,14 +195,8 @@
   <div id='content' class='container_16'> 
     <div class='grid_16' id='content-above-video'></div>
 
-    <iframe id='youtube-iframe' class='grid_16' height="490" src="about:blank" frameborder="0" allowfullscreen></iframe>
-
-    <div class='grid_16' id='content-above-etherpad'></div>
-
+    <iframe id='youtube-iframe' class='grid_16' height="400" src="about:blank" frameborder="0" allowfullscreen></iframe>
     <iframe id='etherpad-iframe' class='grid_16' height="400" src="about:blank"></iframe>
-
-    <div class='grid_16' id='content-above-irc'></div>
-
     <iframe id='irc-iframe' class='grid_16' height="400" src="about:blank"></iframe>
 
     <div class='grid_16' id='content-below-irc'></div>

@@ -36,7 +36,7 @@
 #editor .helper-text pre {
   font-style: normal;
 }
-#editor .input input {
+#editor .input input[type="text"] {
   width: 40em;
 }
 #editor textarea {
@@ -47,12 +47,12 @@
 }
 #editor-left {
   float: left;
-  width: 45em;
+  width: 55%;
 }
 #editor-right {
   float: left;
   margin-left: 5em;
-  width: 40em;
+  width: 35%;
 }
 #editor-right pre {
   white-space: pre-wrap;
