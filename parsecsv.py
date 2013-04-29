@@ -75,7 +75,7 @@ class EventName(object):
     '''
     class to handle the name of the event
     if the event name is given, return the event name
-    otherwise automatically generate evenname starting from 0
+    otherwise automatically generate event name starting from 0
     '''
 
     def __init__(self, fields):
