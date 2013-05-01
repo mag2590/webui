@@ -38,19 +38,27 @@ def replaceVarWithContents(savedtemplate,csvfile):
     fields=[]
     mycsv=list(csv.reader(open(csvfile,'r+'),delimiter=','))
     fields=mycsv[0]
-    #print len(fields)
-    for i in xrange(0,len(mycsv)):
-        for j in xrange(1, len(fields)):
-            if(mycsv[i][0]+"."+mycsv[0][j] in templateString):
-                templateString=templateString.replace(mycsv[i][0]+"."+mycsv[0][j], mycsv[i][j])
-
+    print mycsv
+    files=[]
+    print fields[0]
+    for i in xrange(0,len(mycsv)-1):
+        newTempStr=templateString
+        for j in xrange(0,len(fields)):
+            if(fields[j] in newTempStr):
+                tempvar=newTempStr
+                tempvar=tempvar.replace(fields[j],mycsv[i+1][j])
+                newTempStr=tempvar
+        files.append(newTempStr)
     f.close()
-    f=open(savedtemplate,'w+')
-    f.write(templateString)
-
-    print templateString
+    
+    
+    for i in xrange(0, len(files)):
+        with open(str(i)+'.html','w+') as f1:
+            f1.write(files[i]);
+            
+        
 
 def main():
-    replaceVarWithContents('index_test.html','test1.csv')
+    replaceVarWithContents('template2.html','test2.csv')
 
 main()
