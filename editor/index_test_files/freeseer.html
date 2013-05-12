@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><link rel="alternate" type="application/rss+xml" title="Pad RSS Feed" href="http://beta.etherpad.org/p/feed">
+
+        <title>freeseer | Etherpad</title>
+        <script>
+          /*
+          |@licstart  The following is the entire license notice for the
+          JavaScript code in this page.|
+
+          Copyright 2011 Peter Martischka, Primary Technology.
+
+          Licensed under the Apache License, Version 2.0 (the "License");
+          you may not use this file except in compliance with the License.
+          You may obtain a copy of the License at
+
+             http://www.apache.org/licenses/LICENSE-2.0
+
+          Unless required by applicable law or agreed to in writing, software
+          distributed under the License is distributed on an "AS IS" BASIS,
+          WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+          See the License for the specific language governing permissions and
+          limitations under the License.
+
+          |@licend  The above is the entire license notice
+          for the JavaScript code in this page.|
+          */
+        </script>
+
+        <meta charset="utf-8">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+        <link rel="shortcut icon" href="http://beta.etherpad.org/favicon.ico">
+
+        
+        <link href="freeseer_data/pad.css" rel="stylesheet">
+        <link href="freeseer_data/pad_002.css" rel="stylesheet">
+        <style title="dynamicsyntax"></style>
+        <link href="freeseer_data/feedbackii.css" rel="stylesheet"><link href="freeseer_data/slideshow.css" rel="stylesheet"><link href="freeseer_data/button.css" rel="stylesheet"><link href="freeseer_data/page_view.css" rel="stylesheet"><link href="freeseer_data/wrap.css" rel="stylesheet"><link href="freeseer_data/loading_message.css" rel="stylesheet"><link href="freeseer_data/toc.css" rel="stylesheet"><link href="freeseer_data/rtc.css" rel="stylesheet"><link href="freeseer_data/email_notifications.css" rel="stylesheet">
+
+        <link rel="localizations" type="application/l10n+json" href="http://beta.etherpad.org/locales.json">
+        <script type="text/javascript" src="freeseer_data/html10n.js"></script>
+        <script type="text/javascript" src="freeseer_data/l10n.js"></script>
+
+        <!-- head and body had been removed intentionally -->
+
+        
+        </head><body class="readwrite"><div id="editbar" class="toolbar enabledtoolbar">
+            <div id="overlay">
+                <div id="overlay-inner"></div>
+            </div>
+            <ul class="menu_left">
+                
+                <li class="acl-write" id="bold" data-key="bold">
+                    <a title="Bold (Ctrl-B)" class="grouped-left" data-l10n-id="pad.toolbar.bold.title">
+                      <span class="buttonicon buttonicon-bold"></span>
+                    </a>
+                </li>
+                <li class="acl-write" id="italic" data-key="italic">
+                    <a title="Italic (Ctrl-I)" class="grouped-middle" data-l10n-id="pad.toolbar.italic.title">
+                      <span class="buttonicon buttonicon-italic"></span>
+                    </a>
+                </li>
+                <li class="acl-write" id="underline" data-key="underline">
+                    <a title="Underline (Ctrl-U)" class="grouped-middle" data-l10n-id="pad.toolbar.underline.title">
+                      <span class="buttonicon buttonicon-underline"></span>
+                    </a>
+                </li>
+                <li class="acl-write" id="strikethrough" data-key="strikethrough">
+                    <a title="Strikethrough" class="grouped-right" data-l10n-id="pad.toolbar.strikethrough.title">
+                      <span class="buttonicon buttonicon-strikethrough"></span>
+                    </a>
+                </li>
+                <li class="acl-write separator"></li>
+                <li class="acl-write" id="oderedlist" data-key="insertorderedlist">
+                    <a title="Ordered list" class="grouped-left" data-l10n-id="pad.toolbar.ol.title">
+                      <span class="buttonicon buttonicon-insertorderedlist"></span>
+                    </a>
+                </li>
+                <li class="acl-write" id="unoderedlist" data-key="insertunorderedlist">
+                    <a title="Unordered List" class="grouped-middle" data-l10n-id="pad.toolbar.ul.title">
+                      <span class="buttonicon buttonicon-insertunorderedlist"></span>
+                    </a>
+                </li>
+                <li class="acl-write" id="tasklist"><a class="grouped-middle" data-l10n-id="pad.toolbar.tasklist.title" title="Task list Checkbox"><span class="buttonicon buttonicon-tasklist"></span></a></li><li class="acl-write" id="indent" data-key="indent">
+                    <a title="Indent" class="grouped-middle" data-l10n-id="pad.toolbar.indent.title">
+                      <span class="buttonicon buttonicon-indent"></span>
+                    </a>
+                </li>
+                <li class="acl-write" id="outdent" data-key="outdent">
+                    <a title="Outdent" class="grouped-right" data-l10n-id="pad.toolbar.unindent.title">
+                      <span class="buttonicon buttonicon-outdent"></span>
+                    </a>
+                </li>
+                <li class="acl-write separator"></li>
+                <li class="acl-write" id="undo" data-key="undo">
+                    <a title="Undo (Ctrl-Z)" class="grouped-left" data-l10n-id="pad.toolbar.undo.title">
+                      <span class="buttonicon buttonicon-undo"></span>
+                    </a>
+                </li>
+                <li class="acl-write" id="redo" data-key="redo">
+                    <a title="Redo (Ctrl-Y)" class="grouped-right" data-l10n-id="pad.toolbar.redo.title">
+                      <span class="buttonicon buttonicon-redo"></span>
+                    </a>
+                </li>
+                <li class="acl-write separator"></li>
+                <li class="acl-write" id="clearAuthorship" data-key="clearauthorship">
+                    <a title="Clear Authorship Colors" data-l10n-id="pad.toolbar.clearAuthorship.title">
+                      <span class="buttonicon buttonicon-clearauthorship"></span>
+                    </a>
+                </li>
+                <li class="separator acl-write"></li>
+<li id="headings" class="acl-write">
+    <select id="heading-selection">
+        <option value="dummy" selected="selected" data-l10n-id="ep_headings.style">Style</option>
+        <option value="-1" data-l10n-id="ep_headings.normal">Normal</option>
+        <option value="0" data-l10n-id="ep_headings.h1">Heading 1</option>
+        <option value="1" data-l10n-id="ep_headings.h2">Heading 2</option>
+        <option value="2" data-l10n-id="ep_headings.h3">Heading 3</option>
+        <option value="3" data-l10n-id="ep_headings.h4">Heading 4</option>
+        <option value="4" data-l10n-id="ep_headings.h5">Heading 5</option>
+        <option value="5" data-l10n-id="ep_headings.h6">Heading 6</option>
+        <option value="6" data-l10n-id="ep_headings.code">Code</option>
+        
+    </select>
+</li><li class="separator acl-write"></li>
+<li id="align" class="acl-write">
+    <select id="align-selection">
+        <option value="dummy" selected="selected" data-l10n-id="ep_align.align">Align</option>
+        <option value="0" data-l10n-id="ep_align.left">Left</option>
+        <option value="1" data-l10n-id="ep_align.middle">Middle</option>
+        <option value="2" data-l10n-id="ep_align.right">Right</option>
+        <option value="3" data-l10n-id="ep_align.justify">Justify</option>
+    </select>
+</li>
+
+            </ul>
+            <ul class="menu_right">
+                <li><a class="feedbackiiButton" href="javascript:MyOtziv.mo_show_box();">Feedback</a></li><li class="separator"></li>
+                <li data-key="import_export">
+                    <a title="Import/Export from/to different file formats" class="grouped-left" id="importexportlink" data-l10n-id="pad.toolbar.import_export.title">
+                        <span class="buttonicon buttonicon-import_export"></span>
+                    </a>
+                </li>
+                <li onclick="document.location = document.location.pathname+ '/timeslider'">
+                    <a title="Timeslider" id="timesliderlink" class="grouped-middle" data-l10n-id="pad.toolbar.timeslider.title">
+                        <span class="buttonicon buttonicon-history"></span>
+                    </a>
+                </li>
+                <li class="acl-write" data-key="savedRevision">
+                    <a title="Save Revision" class="grouped-right" id="revisionlink" data-l10n-id="pad.toolbar.savedRevision.title">
+                        <span class="buttonicon buttonicon-savedRevision"></span>
+                    </a>
+                </li>
+                <li class="acl-write separator"></li>
+                <li class="acl-write" data-key="settings">
+                    <a title="Settings" class="grouped-left" id="settingslink" data-l10n-id="pad.toolbar.settings.title">
+                        <span class="buttonicon buttonicon-settings"></span>
+                    </a>
+                </li>
+                <li data-key="embed">
+                    <a title="Share and Embed this pad" class="grouped-right" id="embedlink" data-l10n-id="pad.toolbar.embed.title">
+                        <span class="grouped-right buttonicon buttonicon-embed"></span>
+                    </a>
+                </li>
+                <li class="separator"></li>
+                <li id="usericon" data-key="showusers">
+                    <a style="box-shadow: 0px 0px 30px rgb(128, 128, 128) inset;" title="Show the users on this pad" data-l10n-id="pad.toolbar.showusers.title">
+                        <span class="buttonicon buttonicon-showusers"></span>
+                        <span id="online_count">1</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+
+        <div id="users">
+            
+            <div id="connectionstatus"></div>
+            <div id="myuser">
+                <div id="mycolorpicker">
+                    <div id="colorpicker"><div height="220" width="220" class="farbtastic" style="position: relative; width: 220px; height: 220px;"><div style="width: 117px; height: 117px; position: absolute; left: 51px; top: 51px; background-color: rgb(255, 0, 0);" height="220" width="220" class="farbtastic-solid"></div><canvas style="width: 220px; height: 220px; position: absolute;" height="220" width="220" class="farbtastic-mask"></canvas><canvas style="width: 220px; height: 220px; position: absolute;" height="220" width="220" class="farbtastic-overlay"></canvas></div></div>
+                    <button id="mycolorpickersave" data-l10n-id="pad.colorpicker.save">Save</button>
+                    <button id="mycolorpickercancel" data-l10n-id="pad.colorpicker.cancel">Cancel</button>
+                    <span style="background-color: rgb(128, 128, 128); color: rgb(255, 255, 255);" id="mycolorpickerpreview" class="myswatchboxhoverable"></span>
+                </div>
+                <div class="myswatchboxhoverable" id="myswatchbox"><div style="background-color: rgb(128, 128, 128);" id="myswatch"></div></div>
+                <div id="myusernameform"><input value="Enter your name" class="editempty myusernameedithoverable editable" id="myusernameedit" data-l10n-id="pad.userlist.entername" type="text">Enter your name</div>
+                <div id="mystatusform"><input id="mystatusedit" disabled="disabled" type="text"></div>
+            </div>
+            <div id="otherusers">
+                <div id="guestprompts"></div>
+                <table id="otheruserstable" border="0" cellpadding="0" cellspacing="0">
+                    <tbody>
+                </tbody></table>
+                <div id="nootherusers"></div>
+            </div>
+            <div id="userlistbuttonarea"></div>
+            
+        </div>
+
+        <div id="editorcontainerbox">
+            <div style="width: 100%;" id="editorcontainer"><iframe name="ace_outer" frameborder="0"></iframe></div>
+            <div style="display: none;" id="editorloadingbox">
+              <div id="passwordRequired">
+                <p data-l10n-id="pad.passwordRequired">You need a password to access this pad</p>
+                <form class="passForm" method="POST">
+                  <input id="passwordinput" name="password" type="password"><input value="Submit" type="submit">
+                </form>
+              </div>
+              <div id="permissionDenied">
+                <p data-l10n-id="pad.permissionDenied">You do not have permission to access this pad</p>
+              </div>
+              <div id="wrongPassword">
+                <p data-l10n-id="pad.wrongPassword">Your password was wrong</p>
+              </div>
+              
+              <p data-l10n-id="pad.loading" id="loading">Loading...</p>
+              <div class="loading_message">Hundreds of plugins are available for Etherpad from the Plugin repository</div>
+              <noscript><strong>Sorry, you have to enable Javascript in order to use this.</strong></noscript>
+            </div>
+        </div>
+
+        <div id="settings" class="popup">
+            <h1 data-l10n-id="pad.settings.padSettings">Pad Settings</h1>
+            <div class="column">
+                
+                <h2 data-l10n-id="pad.settings.myView">My View</h2>
+                <p>
+                    <input id="options-stickychat" onclick="chat.stickToScreen();" type="checkbox">
+                    <label for="options-stickychat" data-l10n-id="pad.settings.stickychat">Chat always on screen</label>
+                </p>
+                <p>
+                    <input checked="checked" id="options-colorscheck" type="checkbox">
+                    <label for="options-colorscheck" data-l10n-id="pad.settings.colorcheck">Authorship colors</label>
+                </p>
+                <p>
+                    <input id="options-linenoscheck" checked="checked" type="checkbox">
+                    <label for="options-linenoscheck" data-l10n-id="pad.settings.linenocheck">Line numbers</label>
+                </p>
+                <p>
+                    <input id="options-rtlcheck" type="checkbox">
+                    <label for="options-rtlcheck" data-l10n-id="pad.settings.rtlcheck">Read content from right to left?</label>
+                </p>
+                <p>
+<input id="options-slideshow" type="checkbox"> 
+<label for="options-slideshow">Slideshow View</label>
+</p>
+<p>
+    <input id="options-pageview" type="checkbox"> 
+    <label for="options-pageview">Page View</label>
+</p>
+<p>
+<input id="options-wrap" checked="checked" type="checkbox"> 
+<label for="options-wrap">Wrap lines</label>
+</p>
+<p>
+    <input id="options-spellcheck" checked="checked" type="checkbox"> 
+    <label for="options-spellcheck">Spell Check</label>
+</p>
+<p>
+<input id="options-toc" unchecked="" type="checkbox">
+<label for="options-toc">Table of Contents</label>
+</p>
+<input id="options-videochat" checked="checked" type="checkbox"> 
+<label for="options-videochat">Allow video/audio offers</label>
+<p>
+  <input id="options-emailNotifications" type="checkbox">
+  <label for="options-emailNotifications" data-l10n-id="ep_email_notifications.menuLabel">Email Notifications</label>
+  </p><div class="ep_email_settings">
+    <form id="ep_email_form_mysettings">
+      <input name="ep_email" class="ep_email_input" placeholder="your@email.com" type="email">
+      <br>
+      <label data-l10n-id="ep_email_notifications.formOptionsTitle">Send a mail when someone..</label>
+      <br>
+      <input name="ep_email_onStart" class="ep_email_checkbox" type="checkbox">
+      <label for="ep_email_onStart" data-l10n-id="ep_email_notifications.formOptionOnStart">starts editing the pad</label>
+      <br>
+      <input name="ep_email_onEnd" class="ep_email_checkbox" type="checkbox">
+      <label for="ep_email_onEnd" data-l10n-id="ep_email_notifications.formOptionOnEnd">finish editing the pad</label>
+      <input name="ep_email_option" type="hidden">
+      <br>
+      <button name="ep_email_subscribe" type="button" class="ep_email_buttons" data-l10n-id="ep_email_notifications.formBtnSubscr">subscribe</button>
+      <button name="ep_email_unsubscribe" type="button" class="ep_email_buttons" data-l10n-id="ep_email_notifications.formBtnUnsubscr">unsubscribe</button>
+    </form>
+  </div>
+<p></p>
+
+                <table>
+                    
+                    <tbody><tr>
+                        <td>
+                            <label for="viewfontmenu" data-l10n-id="pad.settings.fontType">Font type:</label>
+                        </td>
+                        <td>
+                            <select id="viewfontmenu">
+                                <option selected="selected" value="normal" data-l10n-id="pad.settings.fontType.normal">Normal</option>
+                                <option value="monospace" data-l10n-id="pad.settings.fontType.monospaced">Monospace</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="languagemenu" data-l10n-id="pad.settings.language">Language:</label>
+                        </td>
+                        <td>
+                            <select id="languagemenu">
+                                
+                                <option value="diq">Zazaki</option>
+                                
+                                <option value="mk">македонски</option>
+                                
+                                <option value="bn">বাংলা</option>
+                                
+                                <option value="lb">Lëtzebuergesch</option>
+                                
+                                <option value="el">Ελληνικά</option>
+                                
+                                <option value="pt-br">português do Brasil</option>
+                                
+                                <option value="ast">asturianu</option>
+                                
+                                <option value="cs">česky</option>
+                                
+                                <option value="fi">suomi</option>
+                                
+                                <option value="sl">slovenščina</option>
+                                
+                                <option value="ml">മലയാളം</option>
+                                
+                                <option selected="selected" value="en">English</option>
+                                
+                                <option value="ia">interlingua</option>
+                                
+                                <option value="zh-hans">中文（简体）‎</option>
+                                
+                                <option value="nb">norsk (bokmål)‎</option>
+                                
+                                <option value="ar">العربية</option>
+                                
+                                <option value="azb">تورکجه</option>
+                                
+                                <option value="da">dansk</option>
+                                
+                                <option value="es">español</option>
+                                
+                                <option value="az">azərbaycanca</option>
+                                
+                                <option value="ru">русский</option>
+                                
+                                <option value="ksh">Ripoarisch</option>
+                                
+                                <option value="oc">occitan</option>
+                                
+                                <option value="he">עברית</option>
+                                
+                                <option value="ja">日本語</option>
+                                
+                                <option value="pt">português</option>
+                                
+                                <option value="sv">svenska</option>
+                                
+                                <option value="ca">català</option>
+                                
+                                <option value="de">Deutsch</option>
+                                
+                                <option value="uk">українська</option>
+                                
+                                <option value="fr">français</option>
+                                
+                                <option value="pl">polski</option>
+                                
+                                <option value="ps">پښتو</option>
+                                
+                                <option value="te">తెలుగు</option>
+                                
+                                <option value="af">Afrikaans</option>
+                                
+                                <option value="fa">فارسی</option>
+                                
+                                <option value="ms">Bahasa Melayu</option>
+                                
+                                <option value="br">brezhoneg</option>
+                                
+                                <option value="os">Ирон</option>
+                                
+                                <option value="be-tarask">беларуская (тарашкевіца)‎</option>
+                                
+                                <option value="ko">한국어</option>
+                                
+                                <option value="it">italiano</option>
+                                
+                                <option value="gl">galego</option>
+                                
+                                <option value="nl">Nederlands</option>
+                                
+                                <option value="sq">shqip</option>
+                                
+                                <option value="zh-hant">中文（繁體）‎</option>
+                                
+                                <option value="nn">norsk (nynorsk)‎</option>
+                                
+                                <option value="hu">magyar</option>
+                                
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+    <td>
+        <label for="themesmenu">Theme:</label>
+    </td>
+    <td>
+        <select id="themesmenu" onchange="require('ep_etherpad-lite/static/js/pad_cookie').padcookie.setPref('themeName', this.options[this.selectedIndex].value);themes.init();">
+        <option selected="selected" value="normal">Normal</option>
+        <option value="terminal">Terminal</option>
+        <option value="hacker">Hacker</option>
+        <option value="cybergal">Cybergal</option>
+        <option value="monokai">Monokai</option>
+        
+        </select>
+    </td>
+</tr>
+
+                </tbody></table>
+            </div>
+            <div class="column">
+                
+                <h2 data-l10n-id="pad.settings.globalView">Global View</h2>
+                <p>&nbsp;</p> 
+<h2>About</h2> 
+<p>Powered by <a href="http://github.com/ether/etherpad-lite/">Etherpad-lite</a> on node.js (git revision <a href="http://github.com/ether/etherpad-lite/commit/9b7dca">9b7dca</a>).</p>
+            </div>
+        </div>
+
+        <div id="importexport" class="popup">
+            <h1 data-l10n-id="pad.importExport.import_export">Import/Export</h1>
+            <div class="column acl-write">
+                
+                <h2 data-l10n-id="pad.importExport.import">Upload any text file or document</h2>
+                <div class="importmessage" id="importmessageabiword" data-l10n-id="pad.importExport.abiword.innerHTML">You only can import from plain text or html formats. For more advanced import features please <a href="https://github.com/ether/etherpad-lite/wiki/How-to-enable-importing-and-exporting-different-file-formats-in-Ubuntu-or-OpenSuse-or-SLES-with-AbiWord">install abiword</a>.</div><br>
+                <form id="importform" method="post" action="http://beta.etherpad.org/p/freeseer/import" target="importiframe" enctype="multipart/form-data">
+                    <div class="importformdiv" id="importformfilediv">
+                        <input name="file" size="10" id="importfileinput" type="file">
+                        <div class="importmessage" id="importmessagefail"></div>
+                    </div>
+                    <div id="import"><iframe style="display: none;" name="importiframe" class="importframe"></iframe></div>
+                    <div class="importmessage" id="importmessagesuccess" data-l10n-id="pad.importExport.importSuccessful">Successful!</div>
+                    <div class="importformdiv" id="importformsubmitdiv">
+                        <input name="padId" value="blpmaXT35R" type="hidden">
+                        <span class="nowrap">
+                            <input name="submit" value="Import Now" disabled="disabled" id="importsubmitinput" type="submit">
+                            <img alt="" id="importstatusball" src="freeseer_data/loading.gif" align="top">
+                            <img alt="" id="importarrow" src="freeseer_data/leftarrow.png" align="top">
+                        </span>
+                    </div>
+                </form>
+                
+            </div>
+            <div class="column">
+                <h2 data-l10n-id="pad.importExport.export">Export current pad as:</h2>
+                
+                <a href="http://beta.etherpad.org/p/freeseer/export/html" id="exporthtmla" target="_blank" class="exportlink"><div class="exporttype" id="exporthtml" data-l10n-id="pad.importExport.exporthtml">HTML</div></a>
+                <a href="http://beta.etherpad.org/p/freeseer/export/txt" id="exportplaina" target="_blank" class="exportlink"><div class="exporttype" id="exportplain" data-l10n-id="pad.importExport.exportplain">Plain text</div></a>
+                <a href="http://beta.etherpad.org/p/freeseer/export/doc" id="exportworda" target="_blank" class="exportlink"><div class="exporttype" id="exportword" data-l10n-id="pad.importExport.exportword">Microsoft Word</div></a>
+                <a href="http://beta.etherpad.org/p/freeseer/export/pdf" id="exportpdfa" target="_blank" class="exportlink"><div class="exporttype" id="exportpdf" data-l10n-id="pad.importExport.exportpdf">PDF</div></a>
+                <a href="http://beta.etherpad.org/p/freeseer/export/odt" id="exportopena" target="_blank" class="exportlink"><div class="exporttype" id="exportopen" data-l10n-id="pad.importExport.exportopen">ODF (Open Document Format)</div></a>
+                <a href="http://beta.etherpad.org/p/freeseer/export/dokuwiki" id="exportdokuwikia" target="_blank" class="exportlink"><div class="exporttype" id="exportdokuwiki" data-l10n-id="pad.importExport.exportdokuwiki">DokuWiki</div></a>
+                
+            </div>
+        </div>
+        
+        <div id="connectivity" class="popup">
+            
+                <div class="connected visible">
+                  <h2 data-l10n-id="pad.modals.connected">Connected.</h2>
+                </div>
+                <div class="reconnecting">
+                  <h1 data-l10n-id="pad.modals.reconnecting">Reconnecting to your pad..</h1>
+                  <p><img alt="" src="freeseer_data/connectingbar.gif" border="0"></p>
+                </div>
+                <div class="userdup">
+                  <h1 data-l10n-id="pad.modals.userdup">Opened in another window</h1>
+                  <h2 data-l10n-id="pad.modals.userdup.explanation">This pad seems to be opened in more than one browser window on this computer.</h2>
+                  <p data-l10n-id="pad.modals.userdup.advice">Reconnect to use this window instead.</p>
+                  <button id="forcereconnect" data-l10n-id="pad.modals.forcereconnect">Force reconnect</button>
+                </div>
+                <div class="unauth">
+                  <h1 data-l10n-id="pad.modals.unauth">Not authorized</h1>
+                  <p data-l10n-id="pad.modals.unauth.explanation">Your permissions have changed while viewing this page. Try to reconnect.</p>
+                  <button id="forcereconnect" data-l10n-id="pad.modals.forcereconnect">Force reconnect</button>
+                </div>
+                <div class="looping">
+                  <h1 data-l10n-id="pad.modals.looping">Disconnected.</h1>
+                  <h2 data-l10n-id="pad.modals.looping.explanation">There are communication problems with the synchronization server.</h2>
+                  <p data-l10n-id="pad.modals.looping.cause">Perhaps you connected through an incompatible firewall or proxy.</p>
+                </div>
+                <div class="initsocketfail">
+                  <h1 data-l10n-id="pad.modals.initsocketfail">Server is unreachable.</h1>
+                  <h2 data-l10n-id="pad.modals.initsocketfail.explanation">Couldn't connect to the synchronization server.</h2>
+                  <p data-l10n-id="pad.modals.initsocketfail.cause">This is probably due to a problem with your browser or your internet connection.</p>
+                </div>
+                <div class="slowcommit">
+                  <h1 data-l10n-id="pad.modals.slowcommit">Disconnected.</h1>
+                  <h2 data-l10n-id="pad.modals.slowcommit.explanation">The server is not responding.</h2>
+                  <p data-l10n-id="pad.modals.slowcommit.cause">This could be due to problems with network connectivity.</p>
+                  <button id="forcereconnect" data-l10n-id="pad.modals.forcereconnect">Force reconnect</button>
+                </div>
+                <div class="deleted">
+                  <h1 data-l10n-id="pad.modals.deleted">Deleted.</h1>
+                  <p data-l10n-id="pad.modals.deleted.explanation">This pad has been removed.</p>
+                </div>
+                <div class="disconnected">
+                  
+                  <h1 data-l10n-id="pad.modals.disconnected">You have been disconnected.</h1>
+                  <h2 data-l10n-id="pad.modals.disconnected.explanation">The connection to the server was lost</h2>
+                  <p data-l10n-id="pad.modals.disconnected.cause">The server may be unavailable. Please notify us if this continues to happen.</p>
+                  <button id="forcereconnect" data-l10n-id="pad.modals.forcereconnect">Force reconnect</button>
+                  
+                </div>
+                <form id="reconnectform" method="post" action="/ep/pad/reconnect" accept-charset="UTF-8" style="display: none;">
+                    <input class="padId" name="padId" type="hidden">
+                    <input class="diagnosticInfo" name="diagnosticInfo" type="hidden">
+                    <input class="missedChanges" name="missedChanges" type="hidden">
+                </form>
+            
+        </div>
+
+        <div id="embed" class="popup">
+            
+            <div id="embedreadonly" class="right acl-write">
+                <input id="readonlyinput" type="checkbox">
+                <label for="readonlyinput" data-l10n-id="pad.share.readonly">Read only</label>
+            </div>
+            <h1 data-l10n-id="pad.share">Share this pad</h1>
+            <div id="linkcode">
+                <h2 data-l10n-id="pad.share.link">Link</h2>
+                <input id="linkinput" type="text">
+            </div>
+            <br>
+            <div id="embedcode">
+                <h2 data-l10n-id="pad.share.emebdcode">Embed URL</h2>
+                <input id="embedinput" type="text">
+            </div>
+            <br>
+<h2>Rss Feeds</h2>
+<p>
+<a class="rssfeed" href="http://beta.etherpad.org/p/freeseer?fullScreen=1/feed" title="Pad Feed">
+<img src="freeseer_data/rss.gif">
+</a>
+
+</p>
+
+        </div>
+
+        <div id="chaticon" onclick="chat.show();return false;">
+            <span id="chatlabel" data-l10n-id="pad.chat">Chat</span>
+            <span class="buttonicon buttonicon-chat"></span>
+            <span id="chatcounter">0</span>
+        </div>
+
+        <div id="chatbox">
+            <div id="titlebar"><span id="titlelabel" data-l10n-id="pad.chat">Chat</span>
+              <a id="titlecross" onclick="chat.hide();return false;">-&nbsp;</a>
+              <a id="titlesticky" onclick="chat.stickToScreen(true);$('#options-stickychat').prop('checked', true);return false;" title="Stick chat to screen">█&nbsp;&nbsp;</a>
+            <span style="padding:5px;float:left;"><input id="enableRealTimeChat" type="checkbox">&nbsp;<label for="enableRealTimeChat">Send Real Time Chat Updates</label></span></div>
+            <div id="localVideo"></div><div id="remotesVideos"></div><div id="hangUp">End Call</div><div id="progressIndicator"></div><div style="top: 45px;" id="chattext" class="authorColors">
+                <img style="display: none;" alt="loading.." id="chatloadmessagesball" class="chatloadmessages" src="freeseer_data/loading.gif" align="top">
+                <button style="display: none;" id="chatloadmessagesbutton" class="chatloadmessages" data-l10n-id="pad.chat.loadmessages">Load more messages</button><p data-authorid="a.fbyYzSk6mkmoTBUC" class="author-a-fbyz89zz122zz83zk6mkmoz84zz66zz85zz67z"><b>:</b><span class="time author-a-fbyz89zz122zz83zk6mkmoz84zz66zz85zz67z">13:13</span> hello</p><p data-authorid="a.fbyYzSk6mkmoTBUC" class="author-a-fbyz89zz122zz83zk6mkmoz84zz66zz85zz67z"><b>:</b><span class="time author-a-fbyz89zz122zz83zk6mkmoz84zz66zz85zz67z">14:14</span> hi</p>
+            </div>
+            <div id="chatinputbox">
+                <form>
+                    <input id="chatinput" maxlength="999" type="text">
+                </form>
+            </div>
+        </div>
+
+        <div id="focusprotector">&nbsp;</div>
+
+        <div style="display: none;" id="toc">
+  <div id="tocItems">
+  </div>
+</div>
+
+
+
+        <script src="freeseer_data/themes.js"></script><script src="freeseer_data/latest.js"></script><script src="freeseer_data/rtc.js"></script>
+        <script type="text/javascript">
+            (function() {
+              // Display errors on page load to the user 
+              // (Gets overridden by padutils.setupGlobalExceptionHandler)
+              var originalHandler = window.onerror;
+              window.onerror = function(msg, url, line) {
+                var box   = document.getElementById('editorloadingbox');
+                box.innerHTML = '<p><b>An error occured while loading the pad</b></p>'
+                              + '<p><b>'+msg+'</b> '
+                              + '<small>in '+ url +' (line '+ line +')</small></p>';
+                // call original error handler
+                if(typeof(originalHandler) == 'function') originalHandler.call(null, arguments);
+              };
+            })();
+        </script>
+        
+        <script type="text/javascript" src="freeseer_data/require-kernel.js"></script>
+        <script type="text/javascript" src="freeseer_data/socket.js"></script>
+
+        <!-- Include base packages manually (this help with debugging) -->
+        <script type="text/javascript" src="freeseer_data/pad_002.js"></script>
+        <script type="text/javascript" src="freeseer_data/ace2_common.js"></script>
+
+        <script type="text/javascript" src="freeseer_data/pad.js"></script>
+
+        <!-- Bootstrap page -->
+        <script type="text/javascript">
+            var clientVars = {};
+            (function () {
+              var pathComponents = location.pathname.split('/');
+              
+              // Strip 'p' and the padname from the pathname and set as baseURL
+              var baseURL = pathComponents.slice(0,pathComponents.length-2).join('/') + '/';
+                            
+              require.setRootURI(baseURL + "javascripts/src");
+              require.setLibraryURI(baseURL + "javascripts/lib");
+              require.setGlobalKeyPath("require");
+
+              $ = jQuery = require('ep_etherpad-lite/static/js/rjquery').jQuery; // Expose jQuery #HACK
+
+              if ((!$.browser.msie) && (!($.browser.mozilla && $.browser.version.indexOf("1.8.") == 0))) {
+                document.domain = document.domain; // for comet
+              }
+
+              var plugins = require('ep_etherpad-lite/static/js/pluginfw/client_plugins');
+              var hooks = require('ep_etherpad-lite/static/js/pluginfw/hooks');
+
+              plugins.baseURL = baseURL;
+              plugins.update(function () {
+                hooks.plugins = plugins;
+
+                // Call documentReady hook
+                $(function() {
+                  hooks.aCallAll('documentReady');
+                });
+
+                var pad = require('ep_etherpad-lite/static/js/pad');
+                pad.baseURL = baseURL;
+                pad.init();
+              });
+
+              /* TODO: These globals shouldn't exist. */
+              pad = require('ep_etherpad-lite/static/js/pad').pad;
+              chat = require('ep_etherpad-lite/static/js/chat').chat;
+              padeditbar = require('ep_etherpad-lite/static/js/pad_editbar').padeditbar;
+              padimpexp = require('ep_etherpad-lite/static/js/pad_impexp').padimpexp;
+            }());
+        </script>
+        <script type="text/javascript" language="JavaScript" src="freeseer_data/tab6.js"></script><style type="text/css">.tdsfh{background: url('http://idea.informer.com/i/feedback_tab.png');} * html .tdsfh{background-image: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://idea.informer.com/i/feedback_tab.png');} .widsnjx {margin:0 auto; position:relative; } .widsnjx fieldset {padding:0; border:none; border:0px solid #000; margin:0;} .furjbqy { position:fixed; left:0; top:0; z-index:5; width:22px; height:100%; } * html .furjbqy { position:absolute; } .furjbqy table {border-collapse: collapse;} .furjbqy td {padding: 0px; vertical-align: middle;} .furjbqy a { display:block; background:#FFA000; } .furjbqy a:hover { background:#FFA000; }.furjbqy img {border:0;}.furrghtd { position:fixed; right:0px; top:0; z-index:5; width:22px; height:100%; } * html .furrghtd { position:absolute; } .furrghtd table {border-collapse: collapse;} .furrghtd td {padding: 0px; vertical-align: middle;} .furrghtd a { display:block; background:#FFA000; } .furrghtd a:hover { background:#FFA000; }.furrghtd img {border:0;} #poxupih {position:absolute; z-index:1001; width:689px;  top:0px; left:0px; font-size:11px; color:#3F4543; font-family: "Segoe UI", Arial, Tahoma, sans-serif;}.poxupih_top {width:689px; height:28px; background:transparent url(http://idea.informer.com/tmpl/images/popup_idea_top.png) 0 0 no-repeat;}.poxupih_bt {width:689px; height:28px; background:transparent url(http://idea.informer.com/tmpl/images/popup_idea_bt.png) 0 0 no-repeat;}.poxupih_center {width:689px; background:transparent url(http://idea.informer.com/tmpl/images/popup_idea_bg.png) 0 0 repeat-y;}.poxupih1 {margin: 0 20px; overflow:hidden; background:#efefef; padding:0px;}.fdsrrel {float:right; margin:-2px 5px 0 0;}.bvnmrte {padding: 15px 20px 20px 12px; _padding-left:1px; font-family: "Segoe UI", Arial, Tahoma, sans-serif; font-size:11px; color:#3F4543; }.poxupih1 .bvnmrte {padding-bottom:10px; padding-top:0px; background:none;}.gertuik {padding:0 8px 0 20px;}#poxupih #hretge {margin:8px 0px; height:96px; background: #fba11f url(http://idea.informer.com/tmpl/images/search_bg.gif) 0 0px no-repeat; position:relative;}#hretge form {padding: 10px 19px 0 18px;}#poxupih #bulbulh {width:462px; float:left;}#adihet {float:right;background: transparent url(http://idea.informer.com/tmpl/images/add_idea_go.gif) 0 0px no-repeat; border:none medium; width:132px; height:27px; float:right; margin-right:-3px; cursor:pointer;}#adihet:hover {background-position: 0 -27px;}.drop_right {background: transparent url(http://idea.informer.com/tmpl/images/q_right1.gif) 0% 0px no-repeat; float:right; display:block; width:8px; height:11px; margin-top:1px; font-size:0;}.drop_left {background: transparent url(http://idea.informer.com/tmpl/images/q_left1.gif) 0% 0px no-repeat; float:right; display:block; width:8px; height:11px; margin-top:1px;}.status_right {left:15px !important;  text-align:left; float:right; margin:0 -15px 0 0;}#poxupih  a {position:relative; z-index:10;}#poxupih .idea_green_top {height:1%;}.poxupih_top {_background-image:none; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://idea.informer.com/tmpl/images/popup_idea_top.png');}.poxupih_bt {_background-image:none; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://idea.informer.com/tmpl/images/popup_idea_bt.png');}.poxupih_center {_background-image:none; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://idea.informer.com/tmpl/images/popup_idea_bg.png',sizingmethod='scale');}.adihet_div {float:right;background: url(http://idea.informer.com/i/add_idea_go_lt.gif) top left no-repeat; height:27px; margin-left:0px; cursor:pointer;}.adihet_div:hover {background-position:0 -27px;}#adihet{background: url(http://idea.informer.com/i/add_idea_go_rt.gif) top right no-repeat; border:none; height:27px; cursor:pointer; color:#fff;font: 14px/27px 'Segoe UI', Arial, Tahoma, sans-serif;padding:0 8px 3px; margin:0;}#adihet:hover {background-position:100% -27px;}a.pokusijy {display:block; width:16px; height:16px; background: transparent url(http://idea.informer.com/tmpl/images/cancel.gif) 100% 0px no-repeat; float:right; position:relative; z-index:101;}a.pokusijy:hover {background-position: 100% 100%; cursor:pointer;}.i_prop {font-size:18px; color:#fff; padding: 0 0 5px 0;}#bulbulh {width:600px; padding: 2px 4px; color:#3F4543; font-family: "Segoe UI", Arial; font-size:16px; margin-bottom:5px;}#hdsfjfsr {background: transparent url(http://idea.informer.com/tmpl/images/search_go.gif) 0 0px no-repeat; border:none medium; width:97px; height:27px; float:right; margin-right:-3px; cursor:pointer;}#hdsfjfsr:hover {background-position: 0 -27px;} #poxupih .fdsrrel a {z-index:0;}</style><div class="furjbqy"><table height="100%"><tbody><tr><td valign="middle"><a href="javascript:MyOtziv.mo_show_box();"><img src="freeseer_data/transp.gif" alt="" style="border: 0;" class="tdsfh" height="131" width="22"></a></td></tr></tbody></table></div><div style="position: absolute; top: 50%; left: 50%;"><div style="position:absolute; display: none; top: -200px; left: -350px;" id="myotziv_box"><div class="widsnjx"><div id="poxupih"><div class="poxupih_top"></div><div class="poxupih_center"><div class="poxupih1"><div class="gertuik"><a class="pokusijy" onclick="MyOtziv.mo_hide_box();"></a><div class="fdsrrel"><a href="http://idea.informer.com/" target="_blank"><img src="freeseer_data/widget_logo.jpg" alt="" border="0" height="23" width="109"></a></div>Feedback</div><div id="hretge"><form target="_blank" action="http://etherpad.idea.informer.com/proj/" method="get"><input name="charset" value="" type="hidden"><fieldset><div class="i_prop">I would like to...</div><input id="bulbulh" name="idea" type="text"><div class="adihet_div"><input id="adihet" value="Add feedback" type="submit"></div></fieldset></form></div><div class="bvnmrte" style="height: 250px;" id="fthere"></div></div></div><div class="poxupih_bt"></div></div></div></div></div><script src="freeseer_data/jgestures.js"></script><script src="freeseer_data/tasklist.js"></script><script src="freeseer_data/toc.js"></script><script type="text/javascript" src="freeseer_data/ep_email.js"></script>
+
+
+</body></html>

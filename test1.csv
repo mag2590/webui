@@ -1,0 +1,4 @@
+{{ video.name }},{{ video.date }},{{ video.location }}
+video1,today,Cornell
+video2,11/12/13,RhodesHall
+My favourite video,today,home

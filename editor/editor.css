@@ -1,0 +1,79 @@
+#editor {
+  width: 100%;
+  background-color: #333;
+  color: #eee;
+  padding-bottom: 0.5em;
+}
+#editor h1 {
+  padding: 0.5em 1em;
+}
+#editor-toggle {
+  text-align: center;
+  padding: 5px;
+  background-color: #333;
+  color: #eee;
+  cursor: hand;
+  border-top: 1px dashed #444;
+  width: 10em;
+  margin-right: 2em;
+  float: right;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+#editor label {
+  margin-left: 2em;
+  float: left;
+  max-width: 8em;
+}
+#editor .input {
+  margin-left: 10em;
+}
+#editor .helper-text{
+  font-size: 0.9em;
+  color: #777;
+  font-style: italic;
+}
+#editor .helper-text pre {
+  font-style: normal;
+}
+#editor .input input[type="text"] {
+  width: 40em;
+}
+#editor textarea {
+  height: 7em;
+  width: 40em;
+  min-width: 40em;
+  max-width: 40em;
+}
+#editor-left {
+  float: left;
+  width: 55%;
+}
+#editor-right {
+  float: left;
+  margin-left: 5em;
+  width: 35%;
+}
+#editor-right pre {
+  white-space: pre-wrap;
+}
+#editor .button {
+  color: #fff;
+  background-color: #555;
+  border: 1px solid #eee;
+  cursor: hand;
+  border-radius: 5px;
+}
+#editor .button:hover {
+  background-color: #777;
+}
+#editor #save-button {
+  height: 30px;
+  width: 200px;  
+}
+.hidden {
+  display: none;
+}
+iframe {
+  background-color: #efefef;
+}
