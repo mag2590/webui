@@ -32,5 +32,5 @@ For this mode, we have created two test CSV files.  However, user can create his
 Example usage:
 -i test.csv
 Where, -i is the first argument (args[0]) which stands for  input CSV file.
-test.csv is the name of the CSV file.
+test.csv is the second argument (args[1]), which is the name of the CSV file.
 
